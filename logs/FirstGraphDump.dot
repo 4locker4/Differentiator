@@ -1,0 +1,19 @@
+digraph differentiator{
+	rankdir=LR;
+	bgcolor="#FFFFFF";	node[color="black", fontsize=14];
+	fixedsize=true;
+	Q00B715C8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{- | {{left | 00B71548} | {right | 00B715A8}}}" ]
+	Q00B71548[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{10 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00B715A8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{^ | {{left | 00B71568} | {right | 00B71588}}}" ]
+	Q00B71568[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00B71588[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{2 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00B715A8 -> Q00B71568
+	Q00B715A8 -> Q00B71588
+
+	Q00B715C8 -> Q00B71548
+	Q00B715C8 -> Q00B715A8
+
+}
