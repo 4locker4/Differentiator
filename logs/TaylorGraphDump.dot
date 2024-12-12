@@ -1,0 +1,97 @@
+digraph differentiator{
+	rankdir=LR;
+	bgcolor="#FFFFFF";	node[color="black", fontsize=14];
+	fixedsize=true;
+	Q00C671B8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{+ | {{left | 00C604B0} | {right | 00C672B8}}}" ]
+	Q00C604B0[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{/ | {{left | 00C61758} | {right | 00C61698}}}" ]
+	Q00C61758[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{* | {{left | 00C61678} | {right | 00C61738}}}" ]
+	Q00C61678[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C61738[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{^ | {{left | 00C61718} | {right | 00C616B8}}}" ]
+	Q00C61718[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{- | {{left | 00C616F8} | {right | 00C616D8}}}" ]
+	Q00C616F8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C616D8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C61718 -> Q00C616F8
+	Q00C61718 -> Q00C616D8
+
+	Q00C616B8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{1 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C61738 -> Q00C61718
+	Q00C61738 -> Q00C616B8
+
+	Q00C61758 -> Q00C61678
+	Q00C61758 -> Q00C61738
+
+	Q00C61698[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{1 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C604B0 -> Q00C61758
+	Q00C604B0 -> Q00C61698
+
+	Q00C672B8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{+ | {{left | 00C669C8} | {right | 00C67418}}}" ]
+	Q00C669C8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{/ | {{left | 00C66968} | {right | 00C66B48}}}" ]
+	Q00C66968[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{* | {{left | 00C66A08} | {right | 00C66A88}}}" ]
+	Q00C66A08[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{1 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C66A88[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{^ | {{left | 00C66C08} | {right | 00C66B88}}}" ]
+	Q00C66C08[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{- | {{left | 00C66948} | {right | 00C66A68}}}" ]
+	Q00C66948[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C66A68[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C66C08 -> Q00C66948
+	Q00C66C08 -> Q00C66A68
+
+	Q00C66B88[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{2 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C66A88 -> Q00C66C08
+	Q00C66A88 -> Q00C66B88
+
+	Q00C66968 -> Q00C66A08
+	Q00C66968 -> Q00C66A88
+
+	Q00C66B48[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{2 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C669C8 -> Q00C66968
+	Q00C669C8 -> Q00C66B48
+
+	Q00C67418[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{+ | {{left | 00C67158} | {right | 00C670B8}}}" ]
+	Q00C67158[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{/ | {{left | 00C67218} | {right | 00C672D8}}}" ]
+	Q00C67218[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{* | {{left | 00C67138} | {right | 00C67198}}}" ]
+	Q00C67138[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C67198[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{^ | {{left | 00C672F8} | {right | 00C673F8}}}" ]
+	Q00C672F8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{- | {{left | 00C67098} | {right | 00C673B8}}}" ]
+	Q00C67098[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C673B8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C672F8 -> Q00C67098
+	Q00C672F8 -> Q00C673B8
+
+	Q00C673F8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{3 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C67198 -> Q00C672F8
+	Q00C67198 -> Q00C673F8
+
+	Q00C67218 -> Q00C67138
+	Q00C67218 -> Q00C67198
+
+	Q00C672D8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{6 | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C67158 -> Q00C67218
+	Q00C67158 -> Q00C672D8
+
+	Q00C670B8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{o | {{left | 00000000} | {right | 00000000}}}" ]
+
+	Q00C67418 -> Q00C67158
+	Q00C67418 -> Q00C670B8
+
+	Q00C672B8 -> Q00C669C8
+	Q00C672B8 -> Q00C67418
+
+	Q00C671B8 -> Q00C604B0
+	Q00C671B8 -> Q00C672B8
+
+}

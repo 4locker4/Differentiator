@@ -36,8 +36,6 @@ int    StrCounter         (const char * fileFirstElement);                      
 void   TestArrayReturner  (int fileSize, char * fileFirstElement);                    ///< Put values into array of struct (test data array)
 char * FileToStr          (const char * file_directory, size_t * file_size);          ///< Return string with all file`s text
 size_t ReadFileSize       (const char * file_directory);                              ///< Return fili size
-
-
-
+int    Factorial          (int num);                                                  ///< Return num factorial
 
 #endif ///not UTILS_H

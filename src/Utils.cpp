@@ -124,3 +124,13 @@ size_t ReadFileSize (const char * file_directory)
 
     return to_take_file_size.st_size;
 }
+
+int Factorial (int num)
+{
+    int res = 1;
+    
+    for (int i = 1; num >= i; i++)
+        res *= i;
+    
+    return res;
+}

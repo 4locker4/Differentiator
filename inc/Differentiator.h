@@ -25,15 +25,22 @@ enum TYPES
 enum OPERATORS
 {
     NOT_OPERATOR = 0,
-    SIN,
-    COS,
-    LN,
-    SQRT,
-    POW = '^',
-    ADD = '+',
-    SUB = '-',
-    MUL = '*',
-    DIV = '/',
+    SIN  = 's',
+    COS  = 'c',
+    LN   = 'l',
+    SQRT = 'S',
+    POW  = '^',
+    ADD  = '+',
+    SUB  = '-',
+    MUL  = '*',
+    DIV  = '/',
+};
+
+enum WHAT_DTOR
+{
+    ALL_NODES,
+    WITH_LEFT_BRACH,
+    WITH_RIGHT_BRANCH
 };
 
 typedef struct
@@ -64,34 +71,61 @@ typedef struct
 {
     const char * data_base_file = NULL;
 
-    NODE * root   = NULL;
+    NODE * root             = NULL;
+    NODE * diffed_expr_root = NULL;
+    NODE * taylor_series    = NULL;
+    char * expr             = NULL;
 
-    bool   status = 0;
+    size_t tree_size    = 0;
+    int    text_pointer = 0;
+    int    depth        = 0;
+
+    bool   status    = 0;
 } TREE;
 
-#define FILL_THE_NODE_DATA_(type, elem, node)                                                             \
-                                        {                                                                 \
-                                            if (type == OP)  node->data.op  = (OPERATORS) elem;           \
-                                            if (type == NUM) node->data.val = elem;                       \
-                                        }
-int      SyntaxError            ();
-NODE *   GetG                   ();
-NODE *   GetExpression          ();
-NODE *   GetT                   ();
-NODE *   GetDegree              ();
-NODE *   GetP                   ();
-NODE *   GetN                   ();
-int      GraphDump              (NODE * node, const char * file_name);
-int      RecurcyDumpFill        (FILE * file, NODE * node);
-NODE *   NewNumNode             (TYPES type, int elem, NODE * left_node, NODE * right_node);
-NODE *   NewVarNode             (TYPES type, char var, NODE * left_node, NODE * right_node);
-NODE *   NewOpNode              (TYPES type, OPERATORS op, NODE * left_node, NODE * right_node);
-nodeElem Eval                   (NODE * node);
-NODE *   Diffirentiation        (NODE * dif, char * var);
-NODE *   StartDiff              (NODE * dif);
-NODE *   CopyTree               (NODE * root);
-NODE *   NumsSumSimplification  (NODE * node);
-int      RecurcyDtor            (NODE * node);
-int      TreeDtor               (NODE * node);
+#define R_DTOR(node)                                            \
+                    {                                           \
+                        NODE * new_node = node->left;           \
+                                                                \
+                        TreeDtor (node, WITH_RIGHT_BRANCH);     \
+                                                                \
+                        return new_node;                        \
+                    }
+
+#define L_DTOR(node)                                            \
+                    {                                           \
+                        NODE * new_node = node->right;          \
+                                                                \
+                        TreeDtor (node, WITH_LEFT_BRACH);       \
+                                                                \
+                        return new_node;                        \
+                    }
+
+TREE *   TreeCtor                   ();
+int      TreeDtor                   (NODE * node, WHAT_DTOR branch);
+int      SyntaxError                (char * expr, int * pointer);
+NODE *   GetG                       (char * expr, int * pointer);
+NODE *   GetExpression              (char * expr, int * pointer);
+NODE *   GetT                       (char * expr, int * pointer);
+NODE *   GetDegree                  (char * expr, int * pointer);
+NODE *   GetFunc                    (char * expr, int * pointer);
+NODE *   GetP                       (char * expr, int * pointer);
+NODE *   GetN                       (char * expr, int * pointer);
+int      GraphDump                  (NODE * node, const char * file_name);
+int      RecurcyDumpFill            (FILE * file, NODE * node);
+NODE *   NewNumNode                 (TYPES type, int elem, NODE * left_node, NODE * right_node);
+NODE *   NewVarNode                 (TYPES type, char var, NODE * left_node, NODE * right_node);
+NODE *   NewOpNode                  (TYPES type, OPERATORS op, NODE * left_node, NODE * right_node);
+nodeElem Eval                       (NODE * node, int x0);
+NODE *   Diffirentiation            (NODE * dif, char var);
+NODE *   StartDiff                  (TREE * tree);
+NODE *   CopyTree                   (NODE * root);
+int      RecurcyDtor                (NODE * node);
+NODE *   NumsSumSimplification      (NODE * node);
+NODE *   OneSimplification          (NODE * node);
+NODE *   MakeGraphSimply            (NODE * node);
+NODE *   TakeHigherOrderDerivative  (NODE * node, char var_name, int * depth, int max_degree);
+NODE *   Taylor                     (TREE * tree);
+NODE *   TaylorRecursy              (NODE * node, char var_name, int * depth, int max_depth, int x0);
 
 #endif

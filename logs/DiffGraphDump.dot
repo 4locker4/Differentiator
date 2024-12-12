@@ -2,30 +2,9 @@ digraph differentiator{
 	rankdir=LR;
 	bgcolor="#FFFFFF";	node[color="black", fontsize=14];
 	fixedsize=true;
-	Q00B71708[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{- | {{left | 00B716E8} | {right | 00B716C8}}}" ]
-	Q00B716E8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{0 | {{left | 00000000} | {right | 00000000}}}" ]
+	Q00C615D8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{s | {{left | 00C615B8} | {right | 00000000}}}" ]
+	Q00C615B8[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
 
-	Q00B716C8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{* | {{left | 00B716A8} | {right | 00B71608}}}" ]
-	Q00B716A8[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{* | {{left | 00B71688} | {right | 00B71628}}}" ]
-	Q00B71688[style=filled, shape=record, fillcolor="#B2EC5D", width=2, label ="{^ | {{left | 00B71668} | {right | 00B71648}}}" ]
-	Q00B71668[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{x | {{left | 00000000} | {right | 00000000}}}" ]
-
-	Q00B71648[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{1 | {{left | 00000000} | {right | 00000000}}}" ]
-
-	Q00B71688 -> Q00B71668
-	Q00B71688 -> Q00B71648
-
-	Q00B71628[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{2 | {{left | 00000000} | {right | 00000000}}}" ]
-
-	Q00B716A8 -> Q00B71688
-	Q00B716A8 -> Q00B71628
-
-	Q00B71608[style=filled, shape=record, fillcolor="#FF7B61", width=2, label ="{1 | {{left | 00000000} | {right | 00000000}}}" ]
-
-	Q00B716C8 -> Q00B716A8
-	Q00B716C8 -> Q00B71608
-
-	Q00B71708 -> Q00B716E8
-	Q00B71708 -> Q00B716C8
+	Q00C615D8 -> Q00C615B8
 
 }

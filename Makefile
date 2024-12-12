@@ -11,7 +11,7 @@ flags = -c -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-e
 
 includes = ./inc/Differentiator.h ./inc/Utils.h
 
-sources = ./src/Differentiator.cpp ./src/DataReader.cpp ./src/Utils.cpp
+sources = ./src/main.cpp ./src/Differentiator.cpp ./src/DataReader.cpp ./src/Utils.cpp ./src/Simplifications.cpp ./src/Taylor.cpp
 
 objects = $(sources:.cpp=.o)
 
@@ -21,6 +21,7 @@ all: $(sources) $(execute) run
 
 run:
 	rm -rf ./logs/DiffGraphDump.html
+	rm -rf ./logs/TaylorGraphDump.html
 	rm -rf ./logs/FirstGraphDump.html
 	@$(execute)
 	@echo -e -en '\E[;32m'"\n\t\t\t\033[1mRunning...\t\t\t\033[0m\n\n"

@@ -1,160 +1,60 @@
 #include "../inc/Differentiator.h"
 
+// Тейлор в тех
+// Упрощалка
+
 static nodeElem GLOBAL_X = 0;
 
 const char * GOD_SAY_NO_COLOR   = "#FF7B61";
 const char * GOD_SAY_YES_COLOR  = "#B2EC5D";
 
-const char * READ_DUMP          = "./logs/FirstGraphDump.dot";
-const char * DIFF_DUMP          = "./logs/DiffGraphDump.dot";
-
-int main ()
-{
-    NODE * node = GetG ();
-
-    printf ("Answer = %d\n", Eval (node));
-
-    NODE * dif_node = StartDiff (node);
-
-    GraphDump (dif_node, DIFF_DUMP);
-
-    GraphDump (node, READ_DUMP);
-
-    system ("dot -Tsvg ./logs/FirstGraphDump.dot -o ./logs/FirstGraphDump.svg");
-    system ("dot -Tsvg ./logs/DiffGraphDump.dot -o ./logs/DiffGraphDump.svg");
-
-    system ("ren logs/FirstGraphDump.svg FirstGraphDump.html");
-    system ("ren logs/DiffGraphDump.svg DiffGraphDump.html");
-}
-
-NODE * NewNumNode (TYPES type, int elem, NODE * left_node, NODE * right_node)
-{
-    NODE * node = (NODE *) calloc (1, sizeof (NODE));
-    my_assert (node);
-
-    node->node_type = type;
-
-    if (type == NUM) node->data.val = elem;
-
-    node->left  = left_node;
-    node->right = right_node;
-
-    return node;
-}
-
-NODE * NewVarNode (TYPES type, char var, NODE * left_node, NODE * right_node)
-{
-    NODE * node = (NODE *) calloc (1, sizeof (NODE));
-    my_assert (node);
-
-    node->node_type = type;
-
-    if (type == VAR) node->data.var.var_name = var;
-
-    node->left  = left_node;
-    node->right = right_node;
-
-    return node;
-}
-
-NODE * NewOpNode (TYPES type, OPERATORS op, NODE * left_node, NODE * right_node)
-{
-    NODE * node = (NODE *) calloc (1, sizeof (NODE));
-    my_assert (node);
-
-    node->node_type = type;
-
-    if (type == OP) node->data.op = op;
-
-    node->left  = left_node;
-    node->right = right_node;
-
-    return node;
-}
-
-int TreeDtor (NODE * node)
-{
-    my_assert (node);
-
-    if (node->left)  RecurcyDtor (node->left);
-    if (node->right) RecurcyDtor (node->right);
-
-    node->left = NULL;
-    node->right = NULL;
-
-    node->data.op = NOT_OPERATOR;
-    node->data.val = 0;
-    node->data.var.var_name = 0;
-    node->data.var.var_val = 0;
-
-    node->node_type = NOT_INITED;
-
-    node = NULL;
-    free (node);
-
-    return 0;
-}
-
-int RecurcyDtor (NODE * node)
-{
-    my_assert (node);
-
-    if (node->left) RecurcyDtor (node->left);
-
-    if (node->right) RecurcyDtor (node->right);
-
-    node->left  = NULL;
-    node->right = NULL;
-
-    node->data.op  = NOT_OPERATOR;
-    node->data.val = 0;
-    node->data.var.var_name = 0;
-    node->data.var.var_val  = 0;
-
-    node->node_type = NOT_INITED;
-
-    node = NULL;
-    free (node);
-
-    return 0;
-}
-
-nodeElem Eval (NODE * node)
+nodeElem Eval (NODE * node, int x0)
 {
     my_assert (node);
 
     if (node->node_type == NUM) 
         return node->data.val;
     else if (node->node_type == VAR)
-        return GLOBAL_X;
+        return x0;
     else if (node->node_type = OP)
         switch (node->data.op)
         {
             case ADD:
-                return Eval (node->left) + Eval (node->right);
+                return Eval (node->left, x0) + Eval (node->right, x0);
             case SUB:
-                return Eval (node->left) - Eval (node->right);
+                return Eval (node->left, x0) - Eval (node->right, x0);
             case MUL:
-                return Eval (node->left) * Eval (node->right);
+                return Eval (node->left, x0) * Eval (node->right, x0);
             case DIV:
-                return Eval (node->left) / Eval (node->right);
+                return Eval (node->left, x0) / Eval (node->right, x0);
             case SIN:
-                return sin (Eval (node->left));
+                return sin (Eval (node->left, x0));
             case COS:
-                return cos (Eval (node->left));
+                return cos (Eval (node->left, x0));
             case LN:
-                return log (Eval (node->left));
+                return log (Eval (node->left, x0));
             case POW:
             {
-                double res = pow ((double) Eval (node->left), (double) Eval (node->right));
+                double res = pow ((double) Eval (node->left, x0), (double) Eval (node->right, x0));
 
                 return res;
             }
             case SQRT:
-                return pow (Eval (node->left), 0.5);
+            {
+                double res = pow (Eval (node->left, x0), 0.5);
+
+                return res;
+            }
+            case NOT_INITED:
+            {
+                printf ("not inited node. Data: %d\n"
+                        "node.left  = %p\n"
+                        "node.right = %p\n", node->data.op, node->left, node->right);
+                exit (-1);
+            }
             default:
             {
-                printf ("Error while calculating %d\n", node->node_type);
+                printf ("Error while calculating %d\n", node->data.op);
                 exit (-1);
             }
         }
@@ -167,11 +67,16 @@ nodeElem Eval (NODE * node)
     return 0;
 }
 
-NODE * StartDiff (NODE * dif)
+NODE * StartDiff (TREE * tree)
 {
-    my_assert (dif);
+    my_assert (tree);
 
-    BufferCleaner ();
+    if (tree->status == NOT_INITED)
+    {
+        printf ("Please, firstly create a expression\n");
+
+        return NULL;
+    }
 
     printf ("Please, enter the variable by which to differentiate: ");
 
@@ -186,17 +91,25 @@ NODE * StartDiff (NODE * dif)
 
     printf ("\n");
 
-    NODE * differentiared = Diffirentiation (dif, &var_name);
+    printf ("Order to take the derivative: ");
 
-    NODE * simply = NumsSumSimplification (differentiared);
+    int order = -1;
 
-    if (simply)
-        return simply;
-    else
-        return differentiared;
+    while ((scanf ("%d", &order) != 1) || order < 0)
+    {
+        printf ("Please, enter only positive numbers\n");
+
+        BufferCleaner ();
+    }
+
+    printf ("\n");
+
+    //TakeHigherOrderDerivative (tree, var_name, order);
+
+    return NULL;
 }
 
-NODE * Diffirentiation (NODE * dif, char * var)
+NODE * Diffirentiation (NODE * dif, char var)
 {
     my_assert (dif);
 
@@ -206,7 +119,7 @@ NODE * Diffirentiation (NODE * dif, char * var)
             return NewNumNode (NUM, 0, NULL, NULL);
         case VAR:
         {
-            if (dif->data.var.var_name == *var)
+            if (dif->data.var.var_name == var)
                 return NewNumNode (NUM, 1, NULL, NULL);
             else
                 return NewNumNode (NUM, 0, NULL, NULL);            
@@ -224,15 +137,15 @@ NODE * Diffirentiation (NODE * dif, char * var)
                 case DIV:
                     return DIV_ (SUB_ (MUL_ (DIF_ (dif->left), COPY_ (dif->right)), MUL_ (COPY_ (dif->left), DIF_ (dif->right))), POW_ (COPY_ (dif->right), NUM_ (2)));
                 case SIN:
-                    return MUL_ (MUL_ (COS_ (DIF_ (dif->left)), DIF_ (dif->right)), DIF_ (dif->right));
+                    return MUL_ (COS_ (COPY_ (dif->left)), DIF_ (dif->left));
                 case COS:
-                    return MUL_ (MUL_ (SIN_ (DIF_ (dif->left)), NUM_ (-1)), DIF_ (dif->right));
+                    return MUL_ (MUL_ (SIN_ (COPY_ (dif->left)), NUM_ (-1)), DIF_ (dif->left));
                 case POW:
                     return MUL_ (MUL_ (POW_ (COPY_ (dif->left), NUM_ (dif->right->data.val - 1)), COPY_ (dif->right)), DIF_ (COPY_ (dif->left)));
-                // case SQRT:
-                //     return MUL_ (POW_ (COPY_ (dif->left), NUM_ (dif->right->data.val - 1)), COPY_ (dif->right));
-                // case LN:
-                //     return LN_ (DIF_ (dif->left));
+                case SQRT:
+                    return MUL_ (POW_ (COPY_ (dif->left), NUM_ (dif->right->data.val - 1)), COPY_ (dif->right));
+                case LN:
+                    return DIV_ (NUM_ (1), DIF_ (dif->left));
                 default:
                 {
                     printf ("Error in diffirentiation, op is %d", dif->data.op);
@@ -254,7 +167,7 @@ NODE * CopyTree (NODE * root)
             NODE * left_node  = NULL;
             NODE * right_node = NULL;
 
-            if (root->left) left_node = CopyTree (root->left);
+            if (root->left)  left_node  = CopyTree (root->left);
             if (root->right) right_node = CopyTree (root->right);
 
             return NewOpNode (OP, root->data.op, left_node, right_node);
@@ -290,45 +203,6 @@ int GraphDump (NODE * node, const char * file_name)
 
     return 0;
 }
-
-NODE * NumsSumSimplification (NODE * node)
-{
-    my_assert (node);
-
-    if (node->node_type == NUM) 
-        return node;
-    else if (node->node_type == VAR) 
-        return NULL;
-    else
-    {
-        NODE * a = NumsSumSimplification (node->left);
-        NODE * b = NumsSumSimplification (node->right);
-
-        if (!a || !b)
-            return NULL;
-        
-        NODE * new_node = NUM_ (a->data.val + b->data.val);
-
-        TreeDtor (node);
-
-        return new_node;
-    }
-}
-
-NODE * OneSimplification (NODE * node)
-{
-    my_assert (node);
-
-    NODE * a = NULL;
-    NODE * b = NULL;
-
-    if (node->left && node->right)
-    {
-        a = OneSimplification (node->left);
-        b = OneSimplification (node->right);
-    }
-}
-
 
 int RecurcyDumpFill (FILE * file, NODE * node)
 {

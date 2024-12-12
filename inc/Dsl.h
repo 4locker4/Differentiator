@@ -4,6 +4,7 @@
 #include "Differentiator.h"
 
 #define NUM_(num) NewNumNode (NUM, num, NULL, NULL)
+#define VAR_(var) NewVarNode (VAR, var, NULL, NULL)
 
 #define ADD_(node_1, node_2)  NewOpNode (OP, ADD, node_1, node_2)
 #define SUB_(node_1, node_2)  NewOpNode (OP, SUB, node_1, node_2)
